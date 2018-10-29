@@ -2,6 +2,7 @@ package aether.tipcalculator
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.DecimalFormat
 
@@ -15,17 +16,20 @@ class MainActivity : AppCompatActivity() {
 
 
         idButton.setOnClickListener {
+            try {
+                var chargeOfMeal = idMeal.text.toString().toDouble()
+                val currency = DecimalFormat("$###,###.00")
+                var tipPercent = idSpinner.selectedItem.toString().toDouble() / 100
 
-            var chargeOfMeal = idMeal.text.toString().toDouble()
-            val currency = DecimalFormat("$###,###.00")
-            var tipPercent = idSpinner.selectedItem.toString().toDouble() / 100
-
-            totalCharge = chargeOfMeal + (chargeOfMeal * tipPercent)
-            val totalChargeFormatted = currency.format(totalCharge)
+                totalCharge = chargeOfMeal + (chargeOfMeal * tipPercent)
+                val totalChargeFormatted = currency.format(totalCharge)
 
 
-            textResult.text =
-                    "The Total Cost of the bill with a ${idSpinner.selectedItem}% tip is: $totalChargeFormatted"
+                textResult.text =
+                        "The Total Cost of the bill with a ${idSpinner.selectedItem}% tip is: $totalChargeFormatted"
+            } catch(e:Exception){
+                Toast.makeText(this, "Enter a Number", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }
